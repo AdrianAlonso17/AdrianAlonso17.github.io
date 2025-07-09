@@ -16,9 +16,6 @@
       margin: 0;
     }
 
-    /* Quita la regla global para todas las imágenes */
-
-    /* Imagen de fondo solo para la clase background-image */
     .background-image {
       width: 100vw;
       height: 100dvh;
@@ -35,8 +32,8 @@
 
     header {
       display: flex;
-      justify-content: center;    /* centro horizontal */
-      align-items: flex-start;    /* arriba vertical */
+      justify-content: center;
+      align-items: flex-start;
       height: 100vh;
       padding-top: 20px;
       animation: slideInDown 1500ms ease-out;
@@ -45,7 +42,6 @@
       z-index: 1;
     }
 
-    /* Imagen logo con tamaño fijo y animación 3D */
     header img {
       width: 130px;
       height: auto;
@@ -93,7 +89,7 @@
     let currentFrame = 0;
 
     const img = document.createElement('img');
-    img.classList.add('background-image');  // <-- Añadido para que tenga estilos correctos
+    img.classList.add('background-image');
     main.appendChild(img);
 
     function updateImage(frame = 0) {
