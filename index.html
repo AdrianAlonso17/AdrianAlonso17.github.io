@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🏍️ Moto Scroll</title>
+  <title>Ferrari</title>
   <style>
     *,
     *::before,
@@ -16,7 +16,10 @@
       margin: 0;
     }
 
-    img {
+    /* Quita la regla global para todas las imágenes */
+
+    /* Imagen de fondo solo para la clase background-image */
+    .background-image {
       width: 100vw;
       height: 100dvh;
       object-fit: cover;
@@ -31,36 +34,44 @@
     }
 
     header {
-      background: linear-gradient(40deg, #ba3816, #a41705 40%);
-      width: 300px;
-      height: 300px;
-      border-radius: 1000px;
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1;
-      margin-top: -230px;
       display: flex;
-      align-items: flex-end;
-      justify-content: center;
+      justify-content: center;    /* centro horizontal */
+      align-items: flex-start;    /* arriba vertical */
+      height: 100vh;
+      padding-top: 20px;
       animation: slideInDown 1500ms ease-out;
+      perspective: 1000px;
+      position: relative;
+      z-index: 1;
     }
 
+    /* Imagen logo con tamaño fijo y animación 3D */
     header img {
       width: 130px;
       height: auto;
-      margin-bottom: 30px;
+      margin: 0;
+      animation: rotate3d 5s linear infinite;
+      transform-style: preserve-3d;
+      position: relative;
+      z-index: 2;
+    }
+
+    @keyframes rotate3d {
+      from {
+        transform: rotateY(0deg);
+      }
+      to {
+        transform: rotateY(360deg);
+      }
     }
 
     @keyframes slideInDown {
       from {
-        transform: translate3d(-50%, -100%, 0);
+        transform: translateY(-100%);
         opacity: 0;
       }
-
       to {
-        transform: translate3d(-50%, 0, 0);
+        transform: translateY(0);
         opacity: 1;
       }
     }
@@ -82,6 +93,7 @@
     let currentFrame = 0;
 
     const img = document.createElement('img');
+    img.classList.add('background-image');  // <-- Añadido para que tenga estilos correctos
     main.appendChild(img);
 
     function updateImage(frame = 0) {
