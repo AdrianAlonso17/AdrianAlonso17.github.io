@@ -143,14 +143,26 @@
     </header>
   </main>
 
-  <div class="estilos" id="estilosBox">
-    <h2>Elige tu estilo Ferrari</h2>
-    <button data-msg="Lujo y clase en cada curva.">Elegancia</button>
-    <button data-msg="Potencia brutal y velocidad máxima.">Deportivo</button>
-    <button data-msg="Estilo urbano con alma de carreras.">Urbano</button>
-    <button data-msg="Tecnología que desafía el futuro.">Futurista</button>
-    <div class="mensaje-estilo" id="mensajeEstilo"></div>
-  </div>
+  <div class="estilos" id="estilosBox" style="max-width:400px; margin: 2rem auto; padding: 1.5rem; border-radius: 12px; background: #1a1a1a; color: #eee; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
+  <h2 style="text-align:center; font-weight: 700; margin-bottom: 1rem; font-size: 1.8rem;">Descubre tu estilo en ropa urbana</h2>
+
+  <button onclick="location.href='sudaderas.html'" style="width: 100%; margin: 0.3rem 0; padding: 0.8rem; border: none; border-radius: 8px; background: #ff3c00; color: white; font-weight: 600; cursor: pointer; transition: background 0.3s;">
+    Sudaderas Clásicas
+  </button>
+
+  <button onclick="location.href='zapatillas.html'" style="width: 100%; margin: 0.3rem 0; padding: 0.8rem; border: none; border-radius: 8px; background: #0a74da; color: white; font-weight: 600; cursor: pointer; transition: background 0.3s;">
+    Zapatillas Urbanas
+  </button>
+
+  <button onclick="location.href='edicion-limitada.html'" style="width: 100%; margin: 0.3rem 0; padding: 0.8rem; border: none; border-radius: 8px; background: #222; color: #fff; font-weight: 600; cursor: pointer; border: 2px solid #eee; transition: background 0.3s;">
+    Edición Limitada
+  </button>
+
+  <button onclick="location.href='accesorios.html'" style="width: 100%; margin: 0.3rem 0; padding: 0.8rem; border: none; border-radius: 8px; background: #555; color: white; font-weight: 600; cursor: pointer; transition: background 0.3s;">
+    Accesorios
+  </button>
+</div>
+
 
   <script type="module">
     import { images } from './images.js';
