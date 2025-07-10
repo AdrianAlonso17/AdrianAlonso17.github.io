@@ -124,7 +124,7 @@
       }
     });
 
-    // Scroll automático
+    // Scroll automático fluido con retraso de 5 segundos
     let autoScrollActive = true;
 
     function autoScroll() {
@@ -133,16 +133,18 @@
       const isAtBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight;
 
       if (!isAtBottom) {
-        window.scrollBy({ top: 30, behavior: 'smooth' });
+        window.scrollBy({ top: 50, behavior: 'smooth' }); // Scroll rápido y suave
         requestAnimationFrame(autoScroll);
       }
     }
 
     window.addEventListener('load', () => {
-      autoScroll();
+      setTimeout(() => {
+        autoScroll();
+      }, 5000); // Espera 5 segundos (5000 ms)
     });
 
-    // Detener auto-scroll si el usuario interactúa
+    // Cancelar scroll automático si el usuario interactúa
     window.addEventListener('wheel', () => {
       autoScrollActive = false;
     }, { once: true });
