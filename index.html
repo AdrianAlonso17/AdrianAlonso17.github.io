@@ -327,7 +327,7 @@
   if (!autoScrollActive) return;
   const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight;
   if (!atBottom) {
-    window.scrollBy(0, 60); // movimiento más suave y constante
+    window.scrollBy(0, 30); // movimiento más suave y constante
     setTimeout(autoScroll, 16); // ~60 FPS, más fiable en móviles que requestAnimationFrame
   }
 }
