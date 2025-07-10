@@ -17,7 +17,7 @@
       background-color: black;
       color: white;
       overflow-x: hidden;
-      overflow-y: hidden; /* Bloquea scroll mientras el video se reproduce */
+      overflow-y: hidden;
     }
 
     .background-image {
@@ -87,14 +87,14 @@
       left: 0;
       width: 50vw;
       height: 100vh;
-      background: rgba(10, 10, 10, 0.95);
-      padding: 20px 40px 40px 40px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       z-index: 10;
       transform: translateX(-100%);
       transition: transform 1s ease;
       overflow-y: auto;
+
     }
 
     .estilos.visible {
@@ -104,51 +104,73 @@
     .estilos header {
       position: sticky;
       top: 0;
-      background: rgba(10, 10, 10, 0.95);
       padding: 10px 0;
       margin-bottom: 20px;
-      border-bottom: 2px solid #ff0000;
+      border-bottom: 2px solid white;
       z-index: 15;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 110px;
+      height: 100px;
     }
 
     .estilos header img {
       width: 80px;
       height: auto;
-      filter: brightness(0) saturate(100%) invert(1);
+      filter: brightness(0) invert(1);
       animation: rotate3d 5s linear infinite;
       transform-style: preserve-3d;
     }
 
     .estilos h2 {
-      font-size: 32px;
-      margin-bottom: 30px;
-      color: #ff0000;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: white;
       text-align: center;
     }
 
-    .estilos button {
+    .carousel {
+      display: flex;
+      overflow: hidden;
+      position: relative;
       width: 100%;
-      background: #111;
-      border: 2px solid #ff0000;
-      color: #fff;
-      font-size: 18px;
-      padding: 15px 25px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.3s ease;
     }
 
-    .estilos button:hover {
-      background: #ff0000;
-      transform: scale(1.05);
+    .carousel-inner {
+      display: flex;
+      transition: transform 0.5s ease;
+      width: 100%;
+    }
+
+    .carousel-item {
+      min-width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      text-align: center;
+      background: #fff;
+      color: #000;
+      border-radius: 12px;
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .carousel-item p {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .carousel-item button {
+      background: black;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
     }
 
     .mensaje-estilo {
@@ -156,9 +178,9 @@
       font-size: 16px;
       color: #ccc;
       min-height: 30px;
+      text-align: center;
     }
 
-    /* VIDEO INTRO */
     #introVideoContainer {
       position: fixed;
       top: 0;
@@ -184,56 +206,68 @@
       object-fit: cover;
     }
 
-    /* ==== MEJORAS PARA MÓVIL ==== */
     @media (max-width: 768px) {
-      /* Mostrar todo el video sin recortes en móvil */
       #introVideo {
         object-fit: contain;
-        transform: scale(0.9); /* reduce zoom */
+        transform: scale(0.9);
       }
 
-      /* Hacer la caja de estilos ocupar toda la pantalla en móvil */
       .estilos {
         width: 100vw;
       }
 
-      /* Ajustar tamaños si se desea: ejemplo (opcional) */
-      .estilos h2 {
-        font-size: 24px;
+      .carousel-item p {
+        font-size: 14px;
       }
 
-      .estilos button {
-        font-size: 16px;
-        padding: 12px 20px;
+      .carousel-item button {
+        font-size: 14px;
+      }
+
+      .estilos h2 {
+        font-size: 22px;
       }
     }
+
+
   </style>
 </head>
 
 <body>
-
-  <!-- VIDEO INTRO -->
   <div id="introVideoContainer">
     <video id="introVideo" src="intro.mp4" autoplay muted playsinline></video>
   </div>
 
-  <main id="mainContent">
-    <header>
-      <img src="logo.png" alt="Logo blanco giratorio" />
-    </header>
-  </main>
+  <main id="mainContent"></main>
 
   <div class="estilos" id="estilosBox">
     <header>
       <img src="logo.png" alt="Logo blanco giratorio" />
     </header>
-
-    <h2>Descubre tu estilo en ropa urbana</h2>
-
-    <button onclick="location.href='sudaderas.html'">Sudaderas Clásicas</button>
-    <button onclick="location.href='zapatillas.html'">Zapatillas Urbanas</button>
-    <button onclick="location.href='edicion-limitada.html'">Edición Limitada</button>
-    <button onclick="location.href='accesorios.html'">Accesorios</button>
+    <div class="carousel">
+      <div class="carousel-inner" id="carouselInner">
+        <div class="carousel-item">
+          <img src="logo.png" alt="Sudaderas">
+          <p>Sudaderas urbanas con diseños clásicos que nunca fallan.</p>
+          <button onclick="location.href='sudaderas.html'">Ver Sudaderas</button>
+        </div>
+        <div class="carousel-item">
+          <img src="logo.png" alt="Zapatillas">
+          <p>Zapatillas con estilo callejero y comodidad para todo el día.</p>
+          <button onclick="location.href='zapatillas.html'">Ver Zapatillas</button>
+        </div>
+        <div class="carousel-item">
+          <img src="logo.png" alt="Edición limitada">
+          <p>Prendas únicas de edición limitada. Solo para los más rápidos.</p>
+          <button onclick="location.href='edicion-limitada.html'">Ver Edición Limitada</button>
+        </div>
+        <div class="carousel-item">
+          <img src="logo.png" alt="Accesorios">
+          <p>Accesorios para completar tu estilo urbano al máximo.</p>
+          <button onclick="location.href='accesorios.html'">Ver Accesorios</button>
+        </div>
+      </div>
+    </div>
 
     <div class="mensaje-estilo" id="mensajeEstilo"></div>
   </div>
@@ -241,7 +275,6 @@
   <script type="module">
     import { images } from './images.js';
 
-    // Fuerza scroll arriba al cargar
     window.scrollTo(0, 0);
 
     const main = document.querySelector('main');
@@ -261,7 +294,6 @@
     updateImage(currentFrame);
 
     let maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-
     window.addEventListener('resize', () => {
       maxScroll = document.documentElement.scrollHeight - window.innerHeight;
     });
@@ -283,7 +315,6 @@
       }
 
       const estilosBox = document.getElementById('estilosBox');
-
       if (!estilosMostrado && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 10) {
         estilosBox.classList.add('visible');
         bgImg.style.filter = 'brightness(0.3)';
@@ -292,18 +323,11 @@
     });
 
     let autoScrollActive = true;
-
     function autoScroll() {
       if (!autoScrollActive) return;
-
-      const isAtBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight;
-
-      if (!isAtBottom) {
-        // DETECTA SI ES MÓVIL PARA HACER SCROLL MÁS RÁPIDO
-        const isMobile = window.innerWidth <= 768;
-        const scrollStep = isMobile ? 600 : 300; // más rápido en móvil
-
-        window.scrollBy({ top: scrollStep, behavior: 'smooth' });
+      const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight;
+      if (!atBottom) {
+        window.scrollBy({ top: 300, behavior: 'smooth' });
         requestAnimationFrame(autoScroll);
       }
     }
@@ -311,13 +335,15 @@
     window.addEventListener('wheel', () => autoScrollActive = false, { once: true });
     window.addEventListener('touchstart', () => autoScrollActive = false, { once: true });
 
-    const botones = document.querySelectorAll('.estilos button');
-    const mensaje = document.getElementById('mensajeEstilo');
-    botones.forEach(btn => {
-      btn.addEventListener('click', () => {
-        mensaje.textContent = btn.dataset.msg || '';
-      });
-    });
+    // Carrusel automático
+    const carouselInner = document.getElementById('carouselInner');
+    let currentIndex = 0;
+    const totalItems = carouselInner.children.length;
+
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % totalItems;
+      carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }, 4000); // cada 4 segundos
 
     const introContainer = document.getElementById('introVideoContainer');
     const introVideo = document.getElementById('introVideo');
@@ -337,6 +363,5 @@
       }, 1000);
     };
   </script>
-
 </body>
 </html>
