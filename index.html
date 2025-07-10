@@ -133,7 +133,7 @@
       const isAtBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight;
 
       if (!isAtBottom) {
-        window.scrollBy({ top: 100, behavior: 'smooth' }); // Scroll rápido y suave
+        window.scrollBy({ top: 200, behavior: 'smooth' }); // Scroll rápido y suave
         requestAnimationFrame(autoScroll);
       }
     }
@@ -141,7 +141,7 @@
     window.addEventListener('load', () => {
       setTimeout(() => {
         autoScroll();
-      }, 2000); // Espera 5 segundos (5000 ms)
+      }, 3000); // Espera 5 segundos (5000 ms)
     });
 
     // Cancelar scroll automático si el usuario interactúa
