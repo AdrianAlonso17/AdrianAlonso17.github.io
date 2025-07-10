@@ -14,9 +14,10 @@
 
     body {
       margin: 0;
-      font-family: sans-serif;
+      font-family: 'Arial', sans-serif;
       background-color: black;
       color: white;
+      overflow-x: hidden;
     }
 
     .background-image {
@@ -27,7 +28,7 @@
       top: 0;
       left: 0;
       z-index: 0;
-      transition: filter 0.5s ease;
+      filter: brightness(0.3);
     }
 
     main {
@@ -77,56 +78,60 @@
       }
     }
 
-    /* Caja de estilo lateral */
+    /* Caja de estilo: mitad izquierda */
     .estilos {
       position: fixed;
-      left: 30px;
-      bottom: 50px;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 20px 25px;
-      border-radius: 12px;
-      border: 1px solid #f00;
-      z-index: 5;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1s ease;
+      top: 0;
+      left: 0;
+      width: 50vw;
+      height: 100vh;
+      background: rgba(10, 10, 10, 0.95);
+      padding: 60px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 10;
+      transform: translateX(-100%);
+      transition: transform 1s ease;
     }
 
     .estilos.visible {
-      opacity: 1;
-      pointer-events: auto;
+      transform: translateX(0%);
     }
 
     .estilos h2 {
-      margin: 0 0 10px;
-      font-size: 18px;
-      color: #f00;
+      font-size: 32px;
+      margin-bottom: 30px;
+      color: #ff0000;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .estilos button {
-      display: block;
-      width: 100%;
-      margin-bottom: 10px;
-      background: none;
-      border: 1px solid #f00;
+      background: #111;
+      border: 2px solid #ff0000;
       color: #fff;
-      padding: 8px;
-      font-size: 14px;
+      font-size: 18px;
+      padding: 15px 25px;
+      margin-bottom: 15px;
+      border-radius: 8px;
       cursor: pointer;
-      border-radius: 6px;
-      transition: background 0.3s ease, transform 0.2s ease;
+      text-align: left;
+      transition: all 0.3s ease;
     }
 
     .estilos button:hover {
-      background: #f00;
+      background: #ff0000;
+      color: #fff;
       transform: scale(1.05);
     }
 
     .mensaje-estilo {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #aaa;
-      min-height: 20px;
+      margin-top: 20px;
+      font-size: 16px;
+      color: #ccc;
+      min-height: 30px;
+      max-width: 90%;
     }
   </style>
 </head>
@@ -187,14 +192,13 @@
         currentFrame = frame;
       }
 
-      // Mostrar caja cuando estamos cerca del fondo
       const estilosBox = document.getElementById('estilosBox');
       if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 10) {
         estilosBox.classList.add('visible');
       }
     });
 
-    // Scroll automático fluido con retraso de 2.5 segundos
+    // Scroll automático
     let autoScrollActive = true;
 
     function autoScroll() {
@@ -203,7 +207,7 @@
       const isAtBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight;
 
       if (!isAtBottom) {
-        window.scrollBy({ top: 400, behavior: 'smooth' });
+        window.scrollBy({ top: 300, behavior: 'smooth' });
         requestAnimationFrame(autoScroll);
       }
     }
@@ -211,7 +215,7 @@
     window.addEventListener('load', () => {
       setTimeout(() => {
         autoScroll();
-      }, 2500); // Espera 2.5 segundos
+      }, 2500);
     });
 
     window.addEventListener('wheel', () => {
@@ -222,7 +226,7 @@
       autoScrollActive = false;
     }, { once: true });
 
-    // Mensajes al seleccionar estilo
+    // Mensaje de estilo
     const botones = document.querySelectorAll('.estilos button');
     const mensaje = document.getElementById('mensajeEstilo');
     botones.forEach(btn => {
