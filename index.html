@@ -21,8 +21,15 @@
     }
 
     .background-image {
-  filter: none; /* o simplemente elimina filter: brightness(0.3); */
-}
+      width: 100vw;
+      height: 100dvh;
+      object-fit: cover;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      transition: filter 0.5s ease;
+    }
 
     main {
       height: 300dvh;
@@ -138,7 +145,7 @@
 
   <div class="estilos" id="estilosBox">
     <h2>Elige tu estilo Ferrari</h2>
-    <button data-msg="Lujo y clase en cada curva.">Ecia</button>
+    <button data-msg="Lujo y clase en cada curva.">Elegancia</button>
     <button data-msg="Potencia brutal y velocidad máxima.">Deportivo</button>
     <button data-msg="Estilo urbano con alma de carreras.">Urbano</button>
     <button data-msg="Tecnología que desafía el futuro.">Futurista</button>
@@ -171,6 +178,7 @@
     });
 
     let lastFrameUpdate = 0;
+    let estilosMostrado = false;
 
     window.addEventListener('scroll', () => {
       if (Date.now() - lastFrameUpdate < 1) return;
@@ -186,9 +194,11 @@
       }
 
       const estilosBox = document.getElementById('estilosBox');
-      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 10) {
+
+      if (!estilosMostrado && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 10) {
         estilosBox.classList.add('visible');
         img.style.filter = 'brightness(0.3)';
+        estilosMostrado = true;
       }
     });
 
