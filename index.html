@@ -56,6 +56,7 @@
       from {
         transform: rotateY(0deg);
       }
+
       to {
         transform: rotateY(360deg);
       }
@@ -66,6 +67,7 @@
         transform: translateY(-100%);
         opacity: 0;
       }
+
       to {
         transform: translateY(0);
         opacity: 1;
@@ -121,6 +123,33 @@
         currentFrame = frame;
       }
     });
+
+    // Scroll automático
+    let autoScrollActive = true;
+
+    function autoScroll() {
+      if (!autoScrollActive) return;
+
+      const isAtBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight;
+
+      if (!isAtBottom) {
+        window.scrollBy({ top: 1, behavior: 'smooth' });
+        requestAnimationFrame(autoScroll);
+      }
+    }
+
+    window.addEventListener('load', () => {
+      autoScroll();
+    });
+
+    // Detener auto-scroll si el usuario interactúa
+    window.addEventListener('wheel', () => {
+      autoScrollActive = false;
+    }, { once: true });
+
+    window.addEventListener('touchstart', () => {
+      autoScrollActive = false;
+    }, { once: true });
   </script>
 </body>
 
