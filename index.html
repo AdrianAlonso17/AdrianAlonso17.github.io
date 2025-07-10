@@ -324,13 +324,14 @@
 
     let autoScrollActive = true;
     function autoScroll() {
-      if (!autoScrollActive) return;
-      const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight;
-      if (!atBottom) {
-        window.scrollBy({ top: 300, behavior: 'smooth' });
-        requestAnimationFrame(autoScroll);
-      }
-    }
+  if (!autoScrollActive) return;
+  const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight;
+  if (!atBottom) {
+    window.scrollBy(0, 60); // movimiento más suave y constante
+    setTimeout(autoScroll, 16); // ~60 FPS, más fiable en móviles que requestAnimationFrame
+  }
+}
+
 
     window.addEventListener('wheel', () => autoScrollActive = false, { once: true });
     window.addEventListener('touchstart', () => autoScrollActive = false, { once: true });
