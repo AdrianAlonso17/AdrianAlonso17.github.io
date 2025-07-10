@@ -94,7 +94,6 @@
       transform: translateX(-100%);
       transition: transform 1s ease;
       overflow-y: auto;
-
     }
 
     .estilos.visible {
@@ -228,8 +227,6 @@
         font-size: 22px;
       }
     }
-
-
   </style>
 </head>
 
@@ -274,6 +271,11 @@
 
   <script type="module">
     import { images } from './images.js';
+
+    // 🔧 Evitar que el navegador recuerde el scroll tras recargar
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
 
     window.scrollTo(0, 0);
 
@@ -324,14 +326,13 @@
 
     let autoScrollActive = true;
     function autoScroll() {
-  if (!autoScrollActive) return;
-  const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight;
-  if (!atBottom) {
-    window.scrollBy(0, 30); // movimiento más suave y constante
-    setTimeout(autoScroll, 16); // ~60 FPS, más fiable en móviles que requestAnimationFrame
-  }
-}
-
+      if (!autoScrollActive) return;
+      const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight;
+      if (!atBottom) {
+        window.scrollBy(0, 30);
+        setTimeout(autoScroll, 16);
+      }
+    }
 
     window.addEventListener('wheel', () => autoScrollActive = false, { once: true });
     window.addEventListener('touchstart', () => autoScrollActive = false, { once: true });
@@ -344,7 +345,7 @@
     setInterval(() => {
       currentIndex = (currentIndex + 1) % totalItems;
       carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
-    }, 4000); // cada 4 segundos
+    }, 4000);
 
     const introContainer = document.getElementById('introVideoContainer');
     const introVideo = document.getElementById('introVideo');
