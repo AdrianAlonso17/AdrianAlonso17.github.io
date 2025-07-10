@@ -21,15 +21,8 @@
     }
 
     .background-image {
-      width: 100vw;
-      height: 100dvh;
-      object-fit: cover;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      filter: brightness(0.3);
-    }
+  filter: none; /* o simplemente elimina filter: brightness(0.3); */
+}
 
     main {
       height: 300dvh;
@@ -195,6 +188,7 @@
       const estilosBox = document.getElementById('estilosBox');
       if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 10) {
         estilosBox.classList.add('visible');
+        img.style.filter = 'brightness(0.3)';
       }
     });
 
