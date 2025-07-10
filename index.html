@@ -183,6 +183,30 @@
       height: 100%;
       object-fit: cover;
     }
+
+    /* ==== MEJORAS PARA MÓVIL ==== */
+    @media (max-width: 768px) {
+      /* Mostrar todo el video sin recortes en móvil */
+      #introVideo {
+        object-fit: contain;
+        transform: scale(0.9); /* reduce zoom */
+      }
+
+      /* Hacer la caja de estilos ocupar toda la pantalla en móvil */
+      .estilos {
+        width: 100vw;
+      }
+
+      /* Ajustar tamaños si se desea: ejemplo (opcional) */
+      .estilos h2 {
+        font-size: 24px;
+      }
+
+      .estilos button {
+        font-size: 16px;
+        padding: 12px 20px;
+      }
+    }
   </style>
 </head>
 
@@ -194,6 +218,9 @@
   </div>
 
   <main id="mainContent">
+    <header>
+      <img src="logo.png" alt="Logo blanco giratorio" />
+    </header>
   </main>
 
   <div class="estilos" id="estilosBox">
@@ -214,7 +241,7 @@
   <script type="module">
     import { images } from './images.js';
 
-    // ¡Aquí la clave! Forzar scroll arriba nada más cargar la página para evitar que recuerde scroll abajo
+    // Fuerza scroll arriba al cargar
     window.scrollTo(0, 0);
 
     const main = document.querySelector('main');
@@ -265,11 +292,18 @@
     });
 
     let autoScrollActive = true;
+
     function autoScroll() {
       if (!autoScrollActive) return;
+
       const isAtBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight;
+
       if (!isAtBottom) {
-        window.scrollBy({ top: 300, behavior: 'smooth' });
+        // DETECTA SI ES MÓVIL PARA HACER SCROLL MÁS RÁPIDO
+        const isMobile = window.innerWidth <= 768;
+        const scrollStep = isMobile ? 600 : 300; // más rápido en móvil
+
+        window.scrollBy({ top: scrollStep, behavior: 'smooth' });
         requestAnimationFrame(autoScroll);
       }
     }
@@ -277,7 +311,6 @@
     window.addEventListener('wheel', () => autoScrollActive = false, { once: true });
     window.addEventListener('touchstart', () => autoScrollActive = false, { once: true });
 
-    // Mensaje de estilo
     const botones = document.querySelectorAll('.estilos button');
     const mensaje = document.getElementById('mensajeEstilo');
     botones.forEach(btn => {
@@ -286,7 +319,6 @@
       });
     });
 
-    // VIDEO INTRO & TRANSICIÓN
     const introContainer = document.getElementById('introVideoContainer');
     const introVideo = document.getElementById('introVideo');
     const mainContent = document.getElementById('mainContent');
@@ -295,25 +327,13 @@
     introVideo.onended = () => {
       introContainer.classList.add('fade-out');
       setTimeout(() => {
-        // Habilita scroll
         document.body.style.overflowY = 'auto';
-
-        // Muestra contenido
         mainContent.classList.add('visible');
         estilosBox.classList.add('visible-content');
-
-        // Forzar reflow para actualizar scrollHeight
         void document.body.offsetHeight;
-
-        // Forzar pequeño scroll 1px para desbloquear scroll
         window.scrollTo(0, 1);
-
-        // Vuelve a posición 0 para iniciar scroll desde arriba
         window.scrollTo(0, 0);
-
-        // Ahora iniciar scroll automático
         autoScroll();
-
       }, 1000);
     };
   </script>
