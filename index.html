@@ -272,7 +272,6 @@
   <script type="module">
     import { images } from './images.js';
 
-    // 🔧 Evitar que el navegador recuerde el scroll tras recargar
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
@@ -337,7 +336,6 @@
     window.addEventListener('wheel', () => autoScrollActive = false, { once: true });
     window.addEventListener('touchstart', () => autoScrollActive = false, { once: true });
 
-    // Carrusel automático
     const carouselInner = document.getElementById('carouselInner');
     let currentIndex = 0;
     const totalItems = carouselInner.children.length;
