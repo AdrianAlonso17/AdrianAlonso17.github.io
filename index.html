@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ferrari</title>
   <style>
     *,
@@ -18,6 +17,7 @@
       background-color: black;
       color: white;
       overflow-x: hidden;
+      overflow-y: hidden; /* Bloquea scroll mientras el video se reproduce */
     }
 
     .background-image {
@@ -29,6 +29,21 @@
       left: 0;
       z-index: 0;
       transition: filter 0.5s ease;
+    }
+
+    main,
+    .estilos {
+      visibility: hidden;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+
+    main.visible,
+    .estilos.visible-content {
+      visibility: visible;
+      pointer-events: auto;
+      opacity: 1;
     }
 
     main {
@@ -57,28 +72,15 @@
     }
 
     @keyframes rotate3d {
-      from {
-        transform: rotateY(0deg);
-      }
-
-      to {
-        transform: rotateY(360deg);
-      }
+      from { transform: rotateY(0deg); }
+      to { transform: rotateY(360deg); }
     }
 
     @keyframes slideInDown {
-      from {
-        transform: translateY(-100%);
-        opacity: 0;
-      }
-
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
-    /* Caja de estilo: mitad izquierda */
     .estilos {
       position: fixed;
       top: 0;
@@ -93,7 +95,6 @@
       transform: translateX(-100%);
       transition: transform 1s ease;
       overflow-y: auto;
-      color: white;
     }
 
     .estilos.visible {
@@ -108,7 +109,6 @@
       margin-bottom: 20px;
       border-bottom: 2px solid #ff0000;
       z-index: 15;
-
       display: flex;
       justify-content: center;
       align-items: center;
@@ -148,7 +148,6 @@
 
     .estilos button:hover {
       background: #ff0000;
-      color: #fff;
       transform: scale(1.05);
     }
 
@@ -157,13 +156,44 @@
       font-size: 16px;
       color: #ccc;
       min-height: 30px;
-      max-width: 90%;
+    }
+
+    /* VIDEO INTRO */
+    #introVideoContainer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 1s ease;
+    }
+
+    #introVideoContainer.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #introVideo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   </style>
 </head>
 
 <body>
-  <main>
+
+  <!-- VIDEO INTRO -->
+  <div id="introVideoContainer">
+    <video id="introVideo" src="intro.mp4" autoplay muted playsinline></video>
+  </div>
+
+  <main id="mainContent">
     <header>
       <img src="logo.png" alt="Ichiban - Your Way to Freedom" />
     </header>
@@ -187,17 +217,20 @@
   <script type="module">
     import { images } from './images.js';
 
+    // ¡Aquí la clave! Forzar scroll arriba nada más cargar la página para evitar que recuerde scroll abajo
+    window.scrollTo(0, 0);
+
     const main = document.querySelector('main');
     const MAX_FRAMES = images.length;
     let currentFrame = 0;
 
-    const img = document.createElement('img');
-    img.classList.add('background-image');
-    main.appendChild(img);
+    const bgImg = document.createElement('img');
+    bgImg.classList.add('background-image');
+    main.appendChild(bgImg);
 
     function updateImage(frame = 0) {
       if (images[frame]) {
-        img.src = images[frame].p;
+        bgImg.src = images[frame].p;
       }
     }
 
@@ -229,38 +262,23 @@
 
       if (!estilosMostrado && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 10) {
         estilosBox.classList.add('visible');
-        img.style.filter = 'brightness(0.3)';
+        bgImg.style.filter = 'brightness(0.3)';
         estilosMostrado = true;
       }
     });
 
-    // Scroll automático
     let autoScrollActive = true;
-
     function autoScroll() {
       if (!autoScrollActive) return;
-
       const isAtBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight;
-
       if (!isAtBottom) {
         window.scrollBy({ top: 300, behavior: 'smooth' });
         requestAnimationFrame(autoScroll);
       }
     }
 
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        autoScroll();
-      }, 2500);
-    });
-
-    window.addEventListener('wheel', () => {
-      autoScrollActive = false;
-    }, { once: true });
-
-    window.addEventListener('touchstart', () => {
-      autoScrollActive = false;
-    }, { once: true });
+    window.addEventListener('wheel', () => autoScrollActive = false, { once: true });
+    window.addEventListener('touchstart', () => autoScrollActive = false, { once: true });
 
     // Mensaje de estilo
     const botones = document.querySelectorAll('.estilos button');
@@ -270,7 +288,38 @@
         mensaje.textContent = btn.dataset.msg || '';
       });
     });
-  </script>
-</body>
 
+    // VIDEO INTRO & TRANSICIÓN
+    const introContainer = document.getElementById('introVideoContainer');
+    const introVideo = document.getElementById('introVideo');
+    const mainContent = document.getElementById('mainContent');
+    const estilosBox = document.getElementById('estilosBox');
+
+    introVideo.onended = () => {
+      introContainer.classList.add('fade-out');
+      setTimeout(() => {
+        // Habilita scroll
+        document.body.style.overflowY = 'auto';
+
+        // Muestra contenido
+        mainContent.classList.add('visible');
+        estilosBox.classList.add('visible-content');
+
+        // Forzar reflow para actualizar scrollHeight
+        void document.body.offsetHeight;
+
+        // Forzar pequeño scroll 1px para desbloquear scroll
+        window.scrollTo(0, 1);
+
+        // Vuelve a posición 0 para iniciar scroll desde arriba
+        window.scrollTo(0, 0);
+
+        // Ahora iniciar scroll automático
+        autoScroll();
+
+      }, 1000);
+    };
+  </script>
+
+</body>
 </html>
