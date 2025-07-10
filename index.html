@@ -14,6 +14,9 @@
 
     body {
       margin: 0;
+      font-family: sans-serif;
+      background-color: black;
+      color: white;
     }
 
     .background-image {
@@ -24,6 +27,7 @@
       top: 0;
       left: 0;
       z-index: 0;
+      transition: filter 0.5s ease;
     }
 
     main {
@@ -45,7 +49,6 @@
     header img {
       width: 130px;
       height: auto;
-      margin: 0;
       animation: rotate3d 5s linear infinite;
       transform-style: preserve-3d;
       position: relative;
@@ -73,6 +76,58 @@
         opacity: 1;
       }
     }
+
+    /* Caja de estilo lateral */
+    .estilos {
+      position: fixed;
+      left: 30px;
+      bottom: 50px;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px 25px;
+      border-radius: 12px;
+      border: 1px solid #f00;
+      z-index: 5;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .estilos.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .estilos h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      color: #f00;
+    }
+
+    .estilos button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      background: none;
+      border: 1px solid #f00;
+      color: #fff;
+      padding: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .estilos button:hover {
+      background: #f00;
+      transform: scale(1.05);
+    }
+
+    .mensaje-estilo {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #aaa;
+      min-height: 20px;
+    }
   </style>
 </head>
 
@@ -82,6 +137,15 @@
       <img src="logo.png" alt="Ichiban - Your Way to Freedom" />
     </header>
   </main>
+
+  <div class="estilos" id="estilosBox">
+    <h2>Elige tu estilo Ferrari</h2>
+    <button data-msg="Lujo y clase en cada curva.">Elegancia</button>
+    <button data-msg="Potencia brutal y velocidad máxima.">Deportivo</button>
+    <button data-msg="Estilo urbano con alma de carreras.">Urbano</button>
+    <button data-msg="Tecnología que desafía el futuro.">Futurista</button>
+    <div class="mensaje-estilo" id="mensajeEstilo"></div>
+  </div>
 
   <script type="module">
     import { images } from './images.js';
@@ -122,9 +186,15 @@
         updateImage(frame);
         currentFrame = frame;
       }
+
+      // Mostrar caja cuando estamos cerca del fondo
+      const estilosBox = document.getElementById('estilosBox');
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 10) {
+        estilosBox.classList.add('visible');
+      }
     });
 
-    // Scroll automático fluido con retraso de 5 segundos
+    // Scroll automático fluido con retraso de 2.5 segundos
     let autoScrollActive = true;
 
     function autoScroll() {
@@ -133,7 +203,7 @@
       const isAtBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight;
 
       if (!isAtBottom) {
-        window.scrollBy({ top: 400, behavior: 'smooth' }); // Scroll rápido y suave
+        window.scrollBy({ top: 400, behavior: 'smooth' });
         requestAnimationFrame(autoScroll);
       }
     }
@@ -141,10 +211,9 @@
     window.addEventListener('load', () => {
       setTimeout(() => {
         autoScroll();
-      }, 2500); // Espera 5 segundos (5000 ms)
+      }, 2500); // Espera 2.5 segundos
     });
 
-    // Cancelar scroll automático si el usuario interactúa
     window.addEventListener('wheel', () => {
       autoScrollActive = false;
     }, { once: true });
@@ -152,6 +221,15 @@
     window.addEventListener('touchstart', () => {
       autoScrollActive = false;
     }, { once: true });
+
+    // Mensajes al seleccionar estilo
+    const botones = document.querySelectorAll('.estilos button');
+    const mensaje = document.getElementById('mensajeEstilo');
+    botones.forEach(btn => {
+      btn.addEventListener('click', () => {
+        mensaje.textContent = btn.dataset.msg;
+      });
+    });
   </script>
 </body>
 
