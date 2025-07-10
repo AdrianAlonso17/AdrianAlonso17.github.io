@@ -18,33 +18,23 @@
       background-color: black;
       color: white;
       overflow-x: hidden;
-    }
-
-    .background-image {
-      width: 100vw;
-      height: 100dvh;
-      object-fit: cover;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      transition: filter 0.5s ease;
-    }
-
-    main {
-      height: 300dvh;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
     }
 
     header {
+      width: 100%;
+      height: 60px;
+      background-color: #111;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      height: 100vh;
-      padding-top: 20px;
-      animation: slideInDown 1500ms ease-out;
-      perspective: 1000px;
-      position: relative;
-      z-index: 1;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 20;
+      box-shadow: 0 2px 6px rgba(255, 0, 0, 0.5);
     }
 
     header img {
@@ -53,7 +43,7 @@
       animation: rotate3d 5s linear infinite;
       transform-style: preserve-3d;
       position: relative;
-      z-index: 2;
+      z-index: 21;
     }
 
     @keyframes rotate3d {
@@ -66,48 +56,38 @@
       }
     }
 
-    @keyframes slideInDown {
-      from {
-        transform: translateY(-100%);
-        opacity: 0;
-      }
-
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+    main {
+      margin-top: 60px; /* para que no quede bajo el header */
+      display: flex;
+      height: calc(100vh - 60px); /* resto altura header */
+      width: 100%;
     }
 
-    /* Caja de estilo: mitad izquierda */
-    .estilos {
+    section.estilos {
       position: fixed;
-      top: 0;
+      top: 60px; /* justo debajo del header */
       left: 0;
       width: 50vw;
-      height: 100vh;
+      height: calc(100vh - 60px);
       background: rgba(10, 10, 10, 0.95);
-      padding: 60px 40px;
+      padding: 60px 40px 40px 40px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
+      overflow-y: auto;
       z-index: 10;
-      transform: translateX(-100%);
-      transition: transform 1s ease;
     }
 
-    .estilos.visible {
-      transform: translateX(0%);
-    }
-
-    .estilos h2 {
+    section.estilos h2 {
       font-size: 32px;
       margin-bottom: 30px;
       color: #ff0000;
       text-transform: uppercase;
       letter-spacing: 1px;
+      text-align: center;
     }
 
-    .estilos button {
+    section.estilos button {
       background: #111;
       border: 2px solid #ff0000;
       color: #fff;
@@ -120,7 +100,7 @@
       transition: all 0.3s ease;
     }
 
-    .estilos button:hover {
+    section.estilos button:hover {
       background: #ff0000;
       color: #fff;
       transform: scale(1.05);
@@ -133,48 +113,51 @@
       min-height: 30px;
       max-width: 90%;
     }
-    #estilosBox {
-  width: 50vw; /* 50% del ancho de la ventana */
-  max-width: 600px; /* para que no crezca demasiado en pantallas grandes */
-  margin: 2rem auto; /* centrado horizontal y espacio arriba y abajo */
-  padding: 1.5rem;
-  border-radius: 12px;
-  background: #1a1a1a;
-  color: #eee;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  min-width: 280px; /* para móviles */
-}
+
+    /* Contenedor derecho para más contenido (vacío por ahora) */
+    .contenido-derecha {
+      margin-left: 50vw;
+      padding: 20px;
+      flex-grow: 1;
+      background: transparent;
+      color: white;
+      overflow-y: auto;
+    }
   </style>
 </head>
 
 <body>
+  <header>
+    <img src="logo.png" alt="Ichiban - Your Way to Freedom" />
+  </header>
+
   <main>
-    <header>
-      <img src="logo.png" alt="Ichiban - Your Way to Freedom" />
-    </header>
+    <section class="estilos" id="estilosBox">
+      <h2>Descubre tu estilo en ropa urbana</h2>
+
+      <button onclick="location.href='sudaderas.html'">
+        Sudaderas Clásicas
+      </button>
+
+      <button onclick="location.href='zapatillas.html'">
+        Zapatillas Urbanas
+      </button>
+
+      <button onclick="location.href='edicion-limitada.html'">
+        Edición Limitada
+      </button>
+
+      <button onclick="location.href='accesorios.html'">
+        Accesorios
+      </button>
+
+      <div class="mensaje-estilo" id="mensajeEstilo"></div>
+    </section>
+
+    <div class="contenido-derecha">
+      <!-- Aquí puedes añadir contenido a la derecha -->
+    </div>
   </main>
-
-  <div class="estilos" id="estilosBox" style="max-width:400px; margin: 2rem auto; padding: 1.5rem; border-radius: 12px; color: #eee; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; box-shadow: 0 4px 12px rgba(0,0,0,0.5);">
-  <h2 style="text-align:center; font-weight: 700; margin-bottom: 1rem; font-size: 1.8rem;">Descubre tu estilo en ropa urbana</h2>
-
-  <button onclick="location.href='sudaderas.html'" style="width: 100%; margin: 0.3rem 0; padding: 0.8rem; border: none; border-radius: 8px; background: #ff3c00; color: white; font-weight: 600; cursor: pointer; transition: background 0.3s;">
-    Sudaderas Clásicas
-  </button>
-
-  <button onclick="location.href='zapatillas.html'" style="width: 100%; margin: 0.3rem 0; padding: 0.8rem; border: none; border-radius: 8px; background: #0a74da; color: white; font-weight: 600; cursor: pointer; transition: background 0.3s;">
-    Zapatillas Urbanas
-  </button>
-
-  <button onclick="location.href='edicion-limitada.html'" style="width: 100%; margin: 0.3rem 0; padding: 0.8rem; border: none; border-radius: 8px; background: #222; color: #fff; font-weight: 600; cursor: pointer; border: 2px solid #eee; transition: background 0.3s;">
-    Edición Limitada
-  </button>
-
-  <button onclick="location.href='accesorios.html'" style="width: 100%; margin: 0.3rem 0; padding: 0.8rem; border: none; border-radius: 8px; background: #555; color: white; font-weight: 600; cursor: pointer; transition: background 0.3s;">
-    Accesorios
-  </button>
-</div>
-
 
   <script type="module">
     import { images } from './images.js';
@@ -259,7 +242,7 @@
     const mensaje = document.getElementById('mensajeEstilo');
     botones.forEach(btn => {
       btn.addEventListener('click', () => {
-        mensaje.textContent = btn.dataset.msg;
+        mensaje.textContent = btn.dataset.msg || '';
       });
     });
   </script>
